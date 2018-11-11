@@ -1,19 +1,3 @@
-/*
-  dmxChaser - a simple example for espDMX library
-  Copyright (c) 2016, Matthew Tong
-  https://github.com/mtongnz/espDMX
-
-  This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-  License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any
-  later version.
-
-  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License along with this program.
-  If not, see http://www.gnu.org/licenses/
-*/
-
 #include <ArduinoJson.h>
 #include <espDMX.h>
 #include <ESP8266WiFi.h>
@@ -30,6 +14,7 @@ const char* metaChannel = "/meta/devices";
 
 const char* stationName = "DMXController";
 
+const char* activeMsg = "{\"type\":\"ACTIVE\", \"name\":\"DMXController\", \"channel\": \"/devices/dmx\"}";
 const char* joinMsg = "{\"type\":\"JOIN\", \"name\":\"DMXController\", \"channel\": \"/devices/dmx\"}";
 const char* quitMsg = "{\"type\":\"QUIT\", \"name\":\"DMXController\"}";
 const char* badInput = "{\"type\": \"error\", \"message\": \"Bad Input\"}";
@@ -194,7 +179,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   //make sure, type is equal to "update"
   if (!assertEqual(parsed["type"], "update")) {
     if (assertEqual(parsed["type"], "whois")) {
-      client.publish(metaChannel, joinMsg);
+      client.publish(metaChannel, activeMsg);
     }
     return;
   }
@@ -224,6 +209,7 @@ void reconnect() {
     // Attempt to connect
     if (client.connect(stationName, metaChannel, 1, true, quitMsg)) {
       client.publish(metaChannel, joinMsg);
+      client.subscribe(metaChannel);
       client.subscribe(mqttChannel);
       client.subscribe(mqttChannelBinary);
     } else {
