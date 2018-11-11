@@ -23,13 +23,13 @@ const int millisToClose = 12000;
 int status = 5;
 int currentPosition = 0;
 
-const char* mqttChannel = "/devices/shutter2";
-const char* metaChannel = "/meta/devices2";
+const char* mqttChannel = "/devices/shutter";
+const char* metaChannel = "/meta/devices";
 
 const char* stationName = "ShutterController";
 
-const char* joinMsg = "{\"type\":\"JOIN\", \"name\":\"ShutterController2\", \"channel\": \"/devices/shutter2\"}";
-const char* activeMsg = "{\"type\":\"ACTIVE\", \"name\":\"ShutterController\", \"channel\": \"/devices/shutter2\"}";
+const char* joinMsg = "{\"type\":\"JOIN\", \"name\":\"ShutterController\", \"channel\": \"/devices/shutter\"}";
+const char* activeMsg = "{\"type\":\"ACTIVE\", \"name\":\"ShutterController\", \"channel\": \"/devices/shutter\"}";
 const char* quitMsg = "{\"type\":\"QUIT\", \"name\":\"ShutterController\"}";
 const char* badInput = "{\"type\": \"error\", \"message\": \"Bad Input\"}";
 const char* badJson = "{\"type\": \"error\", \"message\": \"Bad JSON\"}";
